@@ -1,26 +1,19 @@
 require('dotenv').config();
 import { Module } from '@nestjs/common';
 import { databaseProviders } from './database.providers';
-import { SequelizeModule } from '@nestjs/sequelize'
-import { UsersModule } from 'src/modules/users/users.module';
+import { SequelizeModule } from '@nestjs/sequelize';
 
 @Module({
   imports: [
     SequelizeModule.forRoot({
       dialect: 'mssql',
-      host: 'localhost',
+      host: process.env.DB_HOST,
       port: 1433,
-      username: 'sa',
-      password: 'Sa_teste1234',
-      database: 'testNest',
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
       autoLoadModels: true,
-      synchronize: true,
-      dialectOptions: {
-        trustServerCertificate: true
-      },
-      define: {
-        timestamps: true
-      },
+      synchronize: false
     }),
   ],
   providers: [...databaseProviders],
