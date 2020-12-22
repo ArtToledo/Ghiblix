@@ -1,25 +1,32 @@
-import { Controller, Get, HttpCode, Post, Req, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { User } from './user.entity';
 import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {
 
-  constructor(private userService: UsersService) {}
+  constructor(
+    private usersService: UsersService
+  ) {}
 
-  @Get() 
-  find() {
-    const result: Promise<User[]> =  this.userService.findAll();
-    console.log(result);
-    return result;
+  @Get()
+  async getAll() {
+    return await this.usersService.findAll();
   }
 
-  @Post('') 
-  @HttpCode(200)
-  singnup(@Req() req,@Res() res ) {
-    const {email, password} = req.body;
+  @Post()
+  async create(@Body() user: User): Promise<User> {
+    return this.usersService.create(user);
+  }
 
-    const user = {email, password};
-    const resultado = this.userService.create(user);
+  @Put(':id')
+  async update(@Param('id') id: number, @Body() user: User): Promise<User> {
+    user.id = id;
+    return this.usersService.update(id, user);
+  }
+
+  @Delete(':id')
+  async delete(@Param('id') id: number) {
+    this.usersService.delete(id);
   }
 }
