@@ -21,7 +21,6 @@ export class UsersController {
 
   @Put(':id')
   async update(@Param('id') id: number, @Body() user: User): Promise<User> {
-    user.id = id;
     return this.usersService.update(id, user);
   }
 

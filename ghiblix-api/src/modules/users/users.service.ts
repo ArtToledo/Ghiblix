@@ -20,13 +20,12 @@ export class UsersService {
         return this.usersRepository.create(user);
     }
 
-    update(id:number, user: User): Promise<User> {
-        this.usersRepository.update({ user }, { where: {id: id} });
+    async update(id:number, user: User): Promise<User> {
+        await this.usersRepository.update(user , { where: {id: id} });
         return this.getById(id);
     }
 
     async delete(id: number) {
-
         this.usersRepository.destroy({where: {id: id}});
     }
 }
