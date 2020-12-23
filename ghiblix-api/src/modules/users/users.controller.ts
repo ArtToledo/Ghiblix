@@ -1,6 +1,8 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { User } from './user.entity';
 import { UsersService } from './users.service';
+
+import {  JwtAuthGuard } from '../../core/auth/shared/jwt-auth.guard';
 
 @Controller('users')
 export class UsersController {
@@ -9,6 +11,7 @@ export class UsersController {
     private usersService: UsersService
   ) {}
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   async getAll() {
     return await this.usersService.findAll();

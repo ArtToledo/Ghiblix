@@ -16,6 +16,10 @@ export class UsersService {
         return this.usersRepository.findByPk(id);
     }
     
+    async getByEmail(email: string): Promise<User> {
+        return await this.usersRepository.findOne<User>({where: { email } });
+    }
+    
     create(user: User): Promise<User> {
         return this.usersRepository.create(user);
     }
