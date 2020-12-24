@@ -17,8 +17,12 @@ export class UsersService {
         return await this.usersRepository.findByPk(id);
     }
     
-    async create(user: User): Promise<User> {
-        return await this.usersRepository.create(user);
+    async getByEmail(email: string): Promise<User> {
+        return await this.usersRepository.findOne<User>({where: { email } });
+    }
+    
+    create(user: User): Promise<User> {
+        return this.usersRepository.create(user);
     }
 
     async update(id:number, user: User): Promise<User> {
