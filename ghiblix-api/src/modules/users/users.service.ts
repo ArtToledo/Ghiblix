@@ -1,4 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { exception } from 'console';
 import { User } from './user.entity';
 
 @Injectable()
@@ -8,21 +9,32 @@ export class UsersService {
         @Inject('USER_REPOSITORY') private usersRepository: typeof User
     ){}
 
-    findAll(): Promise<User[]> {
-        return this.usersRepository.findAll<User>();
+    async findAll(): Promise<User[]> {
+        return await this.usersRepository.findAll<User>();
     }
     
-    getById(id: number): Promise<User> {
-        return this.usersRepository.findByPk(id);
+    async getById(id: number): Promise<User> {
+        return await this.usersRepository.findByPk(id);
     }
     
-    create(user: User): Promise<User> {
-        return this.usersRepository.create(user);
+    async create(user: User): Promise<User> {
+        return await this.usersRepository.create(user);
     }
 
     async update(id:number, user: User): Promise<User> {
-        await this.usersRepository.update(user , { where: {id: id} });
-        return this.getById(id);
+
+        try {
+            if(!this.usersRepository.findByPk(id))
+                throw 'ID '
+
+            else {
+                await this.usersRepository.update(user , { where: {id: id} });
+                return this.getById(id);
+            }
+            
+        } catch(err) {
+
+        }
     }
 
     async delete(id: number) {
