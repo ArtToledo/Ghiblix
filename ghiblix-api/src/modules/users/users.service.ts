@@ -1,4 +1,6 @@
 import { Inject, Injectable, NotFoundException, NotAcceptableException } from '@nestjs/common';
+import { createCipheriv, randomBytes } from 'crypto';
+import * as bcrypt from 'bcrypt';
 import { User } from './user.entity';
 
 @Injectable()
@@ -27,7 +29,23 @@ export class UsersService {
             const email = user.email;
             const exists = await this.usersRepository.findOne({where: {email: email}});
 
-            if(exists)
+            //Encrypt
+            const iv = randomBytes(16);
+            const cipher = createCipheriv('aes-256-ctr', 'secretKey', iv);
+
+            const encryptedPassword = Buffer.concat([
+            cipher.update(user.password),
+            cipher.final(),
+            ]);
+
+            //Hash
+            const saltOrRounds = 10;
+
+            const hashPassword = await bcrypt.hash(encryptedPassword, saltOrRounds);
+
+            user.password = hashPassword;
+
+            if(!exists)
                 throw new NotAcceptableException();
 
         } catch (error) {
