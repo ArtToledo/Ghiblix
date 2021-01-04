@@ -12,11 +12,14 @@ export class User extends Model<User> {
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.INTEGER)
-  id!: string;
+  id!: number;
 
   @Column({ field: 'email' })
   email!: string;
 
   @Column({ field: 'password' })
   password!: string;
+
+  @Column({ field: 'id_plan' })
+  id_plan: string;
 }

@@ -17,6 +17,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
+      id_plan: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
     });
   },
 
