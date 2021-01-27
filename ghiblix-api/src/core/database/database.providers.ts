@@ -1,5 +1,6 @@
 require('dotenv').config();
 import { Sequelize } from 'sequelize-typescript';
+import { Movie } from 'src/modules/movies/movie.entity';
 import { User } from 'src/modules/users/user.entity';
 
 export const databaseProviders = [
@@ -17,7 +18,8 @@ export const databaseProviders = [
       });
 
       sequelize.addModels([
-        User
+        User,
+        Movie
       ]);
       return sequelize;
     },
