@@ -8,4 +8,4 @@ import { moviesProviders } from './movies.providers';
   controllers: [MoviesController],
   exports: [MoviesService, ...moviesProviders]
 })
-export class UsersModule {}
+export class MoviesModule {}

@@ -8,4 +8,11 @@ export class MoviesService {
         @Inject('MOVIE_REPOSITORY') private moviesRepository: typeof Movie
     ){}
 
+    async findAll(): Promise<Movie[]> {
+        return await this.moviesRepository.findAll<Movie>();
+    }
+
+    async findOne(id: number): Promise<Movie> {
+        return await this.moviesRepository.findByPk(id);
+    }
 }
