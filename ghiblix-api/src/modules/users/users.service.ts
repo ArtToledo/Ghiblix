@@ -1,11 +1,13 @@
 import { Inject, Injectable, NotFoundException, NotAcceptableException } from '@nestjs/common';
+import { EmailService } from 'src/shared/email/email.service';
 import { User } from './user.entity';
 
 @Injectable()
 export class UsersService {
 
     constructor(
-        @Inject('USER_REPOSITORY') private usersRepository: typeof User
+        @Inject('USER_REPOSITORY') private usersRepository: typeof User,
+        private emailService: EmailService
     ){}
 
     async findAll(): Promise<User[]> {
@@ -33,6 +35,8 @@ export class UsersService {
         } catch (error) {
             throw error;
         }
+
+        this.emailService.sendEmailTest(user.email);
         return this.usersRepository.create(user);
     }
 
